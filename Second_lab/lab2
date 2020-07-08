@@ -1,0 +1,17 @@
+#!/bin/bash
+#Данный bash-скрипт загружает проект протокола Yggdrasil с репозитория GitHub 
+#с последующей его сборкой и расположением файлов в системные папки
+
+#Скрипт написан исходя из инструкции на GitHub по установке Yggdrasil 
+
+#Для сборки проекта требуется язык программирования Go, так что сначала скачиваем его
+wget https://dl.google.com/go/go1.14.1.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.14.1.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+
+#Клонируем нужный репозиторий с GitHub
+git clone https://github.com/yggdrasil-network/yggdrasil-go
+
+#Собираем проект
+cd yggdrasil-go 
+./build

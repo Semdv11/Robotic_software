@@ -1,0 +1,27 @@
+<launch>
+
+	<master auto="start"/>
+ 	<param name="use_sim_time" value="true"/>
+
+		<!-- Run the stageros  --> 
+	<node name="stageros" type="stageros" pkg="stage_ros" output="screen" args="$(find automapping)/src/floorplan.world" />
+
+		<!-- Run the map server  --> 
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find automapping)/src/floorplan.pgm 0.05"/>
+
+		<!--- Run gmapping  -->
+	<node name="slam_gmapping" type="slam_gmapping" pkg="gmapping" output="screen" args="scan:=base_scan"/>  
+	
+		<!--- Run rviz -->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find automapping)/rviz/config.rviz"/>
+
+		<!--- Run AMCL --> 
+	<include file="$(find automapping)/launch/amcl_diff.launch" />
+
+		<!--- Run move_base -->
+	<include file="$(find automapping)/launch/move_base.launch" />
+  	
+		<!--- Run GetGoal.py <node pkg="automapping" name="GetGoal.py" type="GetGoal.py" output="screen" />-->
+ 	
+
+</launch> 
